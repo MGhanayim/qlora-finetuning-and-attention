@@ -1,0 +1,35 @@
+# Environment variables (secrets)
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Model artifacts (publish to HuggingFace Hub instead)
+adapters/
+checkpoints/
+*.safetensors
+*.bin
+
+# Original assignment PDF / brief (keep notebook only)
+*.pdf
