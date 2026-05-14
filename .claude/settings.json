@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.nebius.com)",
+      "WebFetch(domain:docs.tokenfactory.nebius.com)"
+    ]
+  }
+}

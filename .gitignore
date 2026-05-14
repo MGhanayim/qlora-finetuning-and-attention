@@ -28,8 +28,12 @@ htmlcov/
 # Model artifacts (publish to HuggingFace Hub instead)
 adapters/
 checkpoints/
+data/
 *.safetensors
 *.bin
 
 # Original assignment PDF / brief (keep notebook only)
 *.pdf
+
+# Local planning notes (not for public repo)
+from-finetuning-to-attention-inside-llm-squishy-bird.md
