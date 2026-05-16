@@ -28,7 +28,6 @@ htmlcov/
 # Model artifacts (publish to HuggingFace Hub instead)
 adapters/
 checkpoints/
-data/
 *.safetensors
 *.bin
 

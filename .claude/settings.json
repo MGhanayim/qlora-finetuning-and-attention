@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:docs.nebius.com)",
-      "WebFetch(domain:docs.tokenfactory.nebius.com)"
+      "WebFetch(domain:docs.tokenfactory.nebius.com)",
+      "Bash(python -c ' *)",
+      "Bash(python)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
