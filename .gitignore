@@ -25,11 +25,9 @@ htmlcov/
 # macOS
 .DS_Store
 
-# Model artifacts (publish to HuggingFace Hub instead)
-adapters/
+# Intermediate training checkpoints (optimizer state, large, regenerable) —
+# adapter weights themselves (adapters/) are kept in-repo so they survive Colab sessions
 checkpoints/
-*.safetensors
-*.bin
 
 # Original assignment PDF / brief (keep notebook only)
 *.pdf
