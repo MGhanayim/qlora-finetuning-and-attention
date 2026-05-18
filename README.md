@@ -2,7 +2,7 @@
 
 *QLoRA fine-tuning of decoder-only and encoder-decoder LLMs to condition answers on audience level, plus a from-scratch implementation of scaled dot-product attention.*
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MGhanayim/qlora-finetuning-and-attention/blob/main/From_Finetuning_to_Attention_Inside_LLMs.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MGhanayim/qlora-finetuning-and-attention/blob/main/qlora_finetuning_and_attention.ipynb)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.5](https://img.shields.io/badge/pytorch-2.5-ee4c2c.svg)](https://pytorch.org/)
 [![HF Transformers](https://img.shields.io/badge/%F0%9F%A4%97%20transformers-4.x-yellow.svg)](https://huggingface.co/docs/transformers)
@@ -79,7 +79,7 @@ qlora-finetuning-and-attention/
 ├── README.md                                          # this file
 ├── SPEC.md                                            # technical spec
 ├── requirements.txt
-├── From_Finetuning_to_Attention_Inside_LLMs.ipynb     # main notebook (executed, all outputs visible)
+├── qlora_finetuning_and_attention.ipynb               # main notebook (executed, all outputs visible)
 ├── adapters/
 │   ├── smollm2-lora/                                  # 9.7 MB, q/k/v/o_proj, r=16
 │   └── flant5-lora/                                   # 4.7 MB, q/v, r=16
@@ -100,7 +100,7 @@ qlora-finetuning-and-attention/
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-jupyter notebook From_Finetuning_to_Attention_Inside_LLMs.ipynb
+jupyter notebook qlora_finetuning_and_attention.ipynb
 ```
 
 Run cells 65 onward. Part 2 has no dependency on Part 1 setup — every Part 2 cell does its own imports.
@@ -109,7 +109,7 @@ Run cells 65 onward. Part 2 has no dependency on Part 1 setup — every Part 2 c
 
 `bitsandbytes` 4-bit has no stable macOS build. The notebook is set up to run end-to-end on a free Colab T4 (or an L4 / A100 for faster training):
 
-1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MGhanayim/qlora-finetuning-and-attention/blob/main/From_Finetuning_to_Attention_Inside_LLMs.ipynb)
+1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MGhanayim/qlora-finetuning-and-attention/blob/main/qlora_finetuning_and_attention.ipynb)
 2. **Runtime → Change runtime type → GPU**.
 3. Add Colab secrets: `GH_TOKEN` (for the private-repo bootstrap clone) and `NEBIUS_API_KEY` / `NEBIUS_BASE_URL` (only needed if regenerating the training set; cached `data/train.jsonl` is reused otherwise).
 4. **Runtime → Run all**. The notebook's bootstrap cell clones cached data and adapters from this repo so training and eval don't have to redo the slow pieces.

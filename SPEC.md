@@ -25,7 +25,7 @@ Instruction-tuned LLMs answer questions in a single default register. Users (stu
 |---|---|
 | Source | [`databricks/databricks-dolly-15k`](https://huggingface.co/datasets/databricks/databricks-dolly-15k), `open_qa` split |
 | Filter | Question-shaped instructions (contain "why", "how", "what is", "explain"), length bounds on both question and reference answer (length-filtered to keep the teacher LLM's job tractable and answers comparable). |
-| Teacher LLM | **Qwen3-30B-A3B-Instruct-2507** via [Nebius Token Factory](https://api.studio.nebius.com/v1) — JSON-schema-enforced output for reliability, one call per question returns all three levels (Option A in [Task 1.1 decisions](.claude/projects/-Users-mghanayim-Dev-Claude-qlora-finetuning-and-attention/memory/task_1_1_decisions.md)). |
+| Teacher LLM | **Qwen3-30B-A3B-Instruct-2507** via [Nebius Token Factory](https://api.studio.nebius.com/v1) — one schema-validated call per question, with output parsed into a `LeveledAnswers` Pydantic model. |
 | Augmentation | Teacher rewrites each filtered answer at three levels: child, student, expert. |
 | Train split | 495 source questions × 3 levels = **1,485 training rows** |
 | Test split | 7 hand-curated source questions × 3 levels = **21 evaluation rows**, matched-pair design across levels |
@@ -97,15 +97,15 @@ Adapter on disk: 4.7 MB at [adapters/flant5-lora/](adapters/flant5-lora/).
 | **SmolLM2-360M** | **13** | 7 | 1 | **20 / 21 (95%)** |
 | **flan-t5-small** | 0 | 5 | 16 | 5 / 21 (24%, partial only) |
 
-Differences attributable to architecture and scale (matched LoRA hyperparameters; learning rate is the only architecture-mandated diverging knob). See [README → Headline results](README.md#headline-results) for the qualitative summary and [Notebook cell 61](From_Finetuning_to_Attention_Inside_LLMs.ipynb) for the row-by-row analysis.
+Differences attributable to architecture and scale (matched LoRA hyperparameters; learning rate is the only architecture-mandated diverging knob). See [README → Headline results](README.md#headline-results) for the qualitative summary and [Notebook cell 61](qlora_finetuning_and_attention.ipynb) for the row-by-row analysis.
 
 ## Part 2 — attention from scratch
 
 Pure PyTorch, no model loads, runs on CPU. Three deliverables in the same notebook:
 
-1. **Implementation** ([cell 69](From_Finetuning_to_Attention_Inside_LLMs.ipynb)): `scaled_dot_product_attention(Q, K, V, mask=None)` supporting both 2-D `(seq, d)` and 4-D `(batch, heads, seq, d)` tensor shapes. Mask convention: `mask == 0` positions are set to `-inf` before softmax (Vaswani / Harvard NLP annotated transformer).
-2. **Single-sentence heatmap** ([cell 72](From_Finetuning_to_Attention_Inside_LLMs.ipynb)): random 16-dim embeddings used as Q = K = V for `"the cat sat on the mat"`. Diagonal-dominant softmax confirms random vectors are most similar to themselves.
-3. **Experiments** (cells [75-79](From_Finetuning_to_Attention_Inside_LLMs.ipynb)):
+1. **Implementation** ([cell 69](qlora_finetuning_and_attention.ipynb)): `scaled_dot_product_attention(Q, K, V, mask=None)` supporting both 2-D `(seq, d)` and 4-D `(batch, heads, seq, d)` tensor shapes. Mask convention: `mask == 0` positions are set to `-inf` before softmax (Vaswani / Harvard NLP annotated transformer).
+2. **Single-sentence heatmap** ([cell 72](qlora_finetuning_and_attention.ipynb)): random 16-dim embeddings used as Q = K = V for `"the cat sat on the mat"`. Diagonal-dominant softmax confirms random vectors are most similar to themselves.
+3. **Experiments** (cells [75-79](qlora_finetuning_and_attention.ipynb)):
    - *One-word change* (cat → dog): heatmaps are **bit-identical** under shared seed because random embeddings ignore token identity entirely.
    - *Multi-head with separate `W_Q/W_K/W_V`*: three heads on the same input, each with independently-sampled projection matrices into `d_k=8`. Patterns differ visibly per head, demonstrating the precondition for head specialization (which in trained transformers comes from *learned*, not random, W matrices).
 
